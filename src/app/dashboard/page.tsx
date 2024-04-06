@@ -1,4 +1,4 @@
-import UserTable from '@/components/tables/ProductTable';
+import ProductTable from '@/components/tables/ProductTable';
 import { Metadata } from 'next';
 import React from 'react'
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
@@ -12,8 +12,10 @@ export const metadata: Metadata = {
 const page = () => {
   return (
     <>
+    <div className='lg:flex'>
     <DashboardSidebar/>  
-    <UserTable/>
+    <ProductTable/>
+    </div>
     </>
   )
 }

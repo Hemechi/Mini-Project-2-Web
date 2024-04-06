@@ -7,7 +7,7 @@ export default function FooterComponent() {
   return (
     <Footer container className="mt-10">
       <div className="w-full text-center">
-        <div className="container justify-between sm:flex sm:items-center sm:justify-between">
+        <div className="container mx-auto flex justify-between items-center">
           <Footer.Brand
             href="/"
             src="https://images.vexels.com/media/users/3/318410/isolated/preview/eba4aa0cd5cf829edb21df16da01a6a4-cute-capybara-playing-with-a-butterfly.png"

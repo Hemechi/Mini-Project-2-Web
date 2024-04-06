@@ -1,7 +1,5 @@
-"use client"
-
-import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import Image from "next/image";
 import axios from "axios";
@@ -13,126 +11,158 @@ const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
 
 const validationSchema = Yup.object().shape({
   image: Yup.mixed()
-    .test("fileSize", "File too large", (value: any) => !value || value.size <= FILE_SIZE)
-    .test("fileFormat", "Unsupported Format", (value: any) => !value || SUPPORTED_FORMATS.includes(value.type))
+    .test("fileSize", "File too large", (value: any) => {
+      if (!value) {
+        return true;
+      }
+      return value.size <= FILE_SIZE;
+    })
+    .test("fileFormat", "Unsupported Format", (value: any) => {
+      if (!value) {
+        return true;
+      }
+      return SUPPORTED_FORMATS.includes(value.type);
+    }),
 });
 
 const fieldStyle = "border border-gray-300 rounded-md";
 
-const EditProductForm = ({ Pro }: { Pro: ProductType }) => {
-  const [previewImage, setPreviewImage] = useState<string | undefined>(Pro.image);
+const EditProductForm = ({ pro }: { pro: ProductType }) => {
+  const [previewImage, setPreviewImage] = useState<string | undefined>(
+    undefined
+  );
 
-  const handleSubmitToServer = async (image: any) => {
+  const myHeaders = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NTA2NzEwLCJpYXQiOjE3MTIzNDY3MTAsImp0aSI6ImI1MGRjMDdkZWE3NTRjMTNiYmVjNWMzOWFmMmExY2NiIiwidXNlcl9pZCI6MzR9.v7FTGPeL5cFWUMg0PfxKfpD6yFjHzfin8CveD-Sn-A0",
+      Cookie:
+        "csrftoken=oj4kVPKicYgWw6ppqnUlkxbsIjARq6gYbmJKhxl3GEoArkenGSgwfUb4T9UGl8VJ; sessionid=e2k7ty0e7g6wbreo2q0wq5d6tj92t2cc",
+    },
+  };
+
+  const handleSubmitToServer = async (values: any) => {
     try {
-      const formData = new FormData();
-      formData.append("image", image);
-      const response = await axios.post(`${BASE_API_URL}file/product/`, formData);
+      const response = await axios.post(
+        `${BASE_API_URL}file/product/`,
+        values.image
+      );
       return response.data.image;
     } catch (error) {
       console.log(error);
-      throw new Error("Failed to upload image");
     }
   };
 
-  const handleUpdateProduct = async (values: any) => {
+  const handleCreateProduct = async (values: any, imageData: any) => {
     try {
-      const requestBody: any = {};
-      if (values.name !== Pro.name) requestBody.name = values.name;
-      if (values.desc !== Pro.desc) requestBody.desc = values.desc;
-      if (values.price !== Pro.price) requestBody.price = values.price;
-      if (values.quantity !== Pro.quantity) requestBody.quantity = values.quantity;
-      if (values.image) {
-        const imageUrl = await handleSubmitToServer(values.image);
-        requestBody.image = imageUrl;
+      const imageUrl = await handleSubmitToServer(imageData);
+      console.log("data: ", values);
+      const patchedData: { [key: string]: any } = {};
+      for (const key in values) {
+        if (values[key] !== undefined) {
+          patchedData[key] = values[key];
+        }
       }
-      if (Object.keys(requestBody).length > 0) {
-        await axios.patch(`${BASE_API_URL}products/${Pro.id}`, requestBody);
-        console.log("Product updated successfully");
-      } else {
-        console.log("No updates to submit.");
+      if (imageUrl) {
+        patchedData["image"] = imageUrl;
       }
+      console.log("patchedData: ", patchedData);
+      const postData = await axios.patch(
+        `${BASE_API_URL}products/${pro.id}`,
+        patchedData,
+        myHeaders
+      );
+      console.log("post data: ", postData);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onChange: any = (event: any, setFieldValue: any) => {
+    console.log("event:", event.currentTarget.files);
+    const file = event.currentTarget.files[0];
+    setFieldValue("image", file);
+    setPreviewImage(URL.createObjectURL(file));
   };
 
   return (
     <div className="w-full pt-9">
       <Formik
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          handleUpdateProduct(values);
+        onSubmit={(values: any, { setSubmitting, resetForm }) => {
+          console.log(values);
+          const formData = new FormData();
+          formData.append("image", values.image);
+          handleCreateProduct(values, { image: formData });
           setSubmitting(false);
           resetForm();
         }}
         validationSchema={validationSchema}
         initialValues={{
-          name: Pro.name,
-          desc: Pro.desc,
+          category: {
+            name: "Hemechi",
+            icon:
+              "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1693342954-rincon-3-64ee5ca62e001.jpg?crop=1xw:1xh;center,top&resize=980:*",
+          },
+          name: pro.name || "",
+          desc: pro.desc || "",
           image: undefined,
-          price: Pro.price,
-          quantity: Pro.quantity,
+          price: pro.price || 0,
+          quantity: pro.quantity || 0,
         }}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form className="flex m-[30px] flex-col gap-4">
+            {/* name */}
             <div className="flex flex-col gap-2">
               <label htmlFor="name">Product Name: </label>
               <Field
-                placeholder={Pro.name}
+                placeholder={pro.name}
                 className={fieldStyle}
                 name="name"
                 type="text"
               />
             </div>
+            {/* description */}
             <div className="flex flex-col gap-2">
               <label htmlFor="desc">Description: </label>
               <Field
-                placeholder={Pro.desc}
+                placeholder={pro.desc}
                 className={fieldStyle}
                 name="desc"
                 type="text"
               />
             </div>
+            {/* price */}
             <div className="flex flex-col gap-2">
               <label htmlFor="price">Price: </label>
               <Field
-                placeholder={Pro.price}
+                placeholder={pro.price}
                 className={fieldStyle}
                 name="price"
                 type="number"
               />
             </div>
+            {/* quantity */}
             <div className="flex flex-col gap-2">
               <label htmlFor="price">Quantity: </label>
               <Field
-                placeholder={Pro.quantity}
+                placeholder={pro.quantity}
                 className={fieldStyle}
                 name="quantity"
                 type="number"
               />
-
-              {/* Image  */}
               <div>
-                <Field
+                <input
                   name="image"
                   className={fieldStyle}
                   type="file"
                   title="Select a file"
-                  setFieldValue={setFieldValue} // Set Formik value
-                  component={CustomInput} // component prop used to render the custom input
+                  onChange={(e) => onChange(e, setFieldValue)}
                 />
                 <ErrorMessage name="image">
                   {(msg) => <div className="text-danger">{msg}</div>}
                 </ErrorMessage>
-                {previewImage && (
-                  <Image
-                    className="rounded-md"
-                    src={previewImage}
-                    alt="preview Image"
-                    width={100}
-                    height={100}
-                  />
-                )}
               </div>
             </div>
             <div>
@@ -141,34 +171,23 @@ const EditProductForm = ({ Pro }: { Pro: ProductType }) => {
                 className="w-full px-4 py-3 bg-skin text-white rounded-md"
                 disabled={isSubmitting}
               >
-               Update
+                Update
               </button>
             </div>
           </Form>
         )}
       </Formik>
+      {previewImage && (
+        <Image
+          className="rounded-md"
+          src={previewImage}
+          alt="preview Image"
+          width={100}
+          height={100}
+        />
+      )}
     </div>
   );
 };
 
 export default EditProductForm;
-
-// custom Input
-function CustomInput({ field, form, ...props }: any) {
-  const onChange = (event: any) => {
-    const file = event.currentTarget.files[0];
-    form.setFieldValue(field.name, file);
-    form.setFieldTouched(field.name, true);
-  };
-
-  return (
-    <div className="flex flex-col gap-4 justify-center">
-      <input
-        type="file"
-        onChange={onChange}
-        {...props}
-        className="border border-gray-300 rounded-md"
-      />
-    </div>
-  );
-}
