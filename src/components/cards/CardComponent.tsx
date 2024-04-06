@@ -15,6 +15,7 @@ export default function CardComponent(props: ProductType) {
             
               className="w-full h-60 object-cover "
               src={props.image}
+              alt=""
             />
 
           </CardBody>

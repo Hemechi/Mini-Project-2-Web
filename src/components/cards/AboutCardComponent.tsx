@@ -12,7 +12,7 @@ export default function AboutCardComponent() {
             <small>we have been serving customers around the globe with our commitment to excellence and customer satisfaction.</small>
             <p className="text-tiny uppercase font-bold">Our Products/Services</p>
             <small>
-            We offer a wide range of e-commerce designed to meet the diverse needs of our customers. Our products are carefully curated to ensure the highest quality and value. Whether you're looking for luxury shopping, we have something for everyone.
+            We offer a wide range of e-commerce designed to meet the diverse needs of our customers. Our products are carefully curated to ensure the highest quality and value. Whether you are looking for luxury shopping, we have something for everyone.
             </small>
             <p className="text-tiny uppercase font-bold">Why Choose Us?</p>
             <small>
