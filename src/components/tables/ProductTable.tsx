@@ -9,6 +9,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from "@nextui-org/react";
+import Image from "next/image";
 import { IoEllipsisHorizontal } from "react-icons/io5";
 import { ProductType } from "@/types/product";
 import { useDisclosure } from "@nextui-org/react";
@@ -69,7 +70,7 @@ export default function ProductTable() {
     {
       name: "Image",
       selector: (row): any => (
-        <img src={row.image} width={80} height={80} alt="product" />
+        <Image src={`${row.image}`} width={80} height={80} alt="product" />
       ),
     },
     {

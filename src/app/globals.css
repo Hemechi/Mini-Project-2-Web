@@ -2,7 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-.menu-toggle {
-    color: black; /* Change to your desired color */
-    border: 1px solid black; /* Add a border for better visibility */
-}

@@ -1,4 +1,6 @@
 import Link from "next/link"
+import Image from "next/image"
+
 export default function HeroBannerComponent() {
     return (
         <>
@@ -17,7 +19,7 @@ export default function HeroBannerComponent() {
                     </button>
                     </div>
                     <div>
-                        <img src="https://assets-global.website-files.com/6364b6fd26e298b11fb9391f/6364b6fd26e298cf3bb93c3f_6309fc4305a883fc64b964cc_DrawKit0041_E-commerce_and_Online_Shopping_Banner.png"/>
+                        <Image width={1000} height={1000} src="https://store.istad.co/media/brand_images/HeroBanner.png" alt=''/>
                     </div>
                 </div>
             </div>

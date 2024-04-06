@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 type ParamProps = {
   params :{
@@ -30,7 +31,7 @@ async function page  ({params}: ParamProps) {
     <main >
       <section className='grid md:grid-cols-2 grid-cols-1 gap-5 container mx-auto md:pt-10 '>
        <div className='w-full h-auto flex items-center justify-center'>
-        <img  src={productDetail.image} alt={productDetail.name}/>
+        <Image width={1000} height={1000} src={productDetail.image} alt={productDetail.name}/>
        </div>
        <div className='px-7'>
         <div className='bg-lighter-skin w-auto h-auto text-center rounded-lg px-3'>
