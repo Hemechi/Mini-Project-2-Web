@@ -4,7 +4,7 @@ import { Card, CardHeader } from "@nextui-org/react";
 export default function PolicyComponent() {
     return (
         <div className="container mx-auto pt-10">
-            <Card className="py-4 bg-orange-200">
+            <Card className="py-4">
                 <CardHeader className="pb-0 pt-2 px-4 flex-col items-start gap-3">
                     <div className="flex justify-center w-full">
                         <h4 className="font-bold text-large">Privacy Policy</h4>
