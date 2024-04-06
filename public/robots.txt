@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+Disallow: /cgi-bin/
+Sitemap: https://next-js-metadata-3x2aufjqv-helens-projects-9fc34d3f.vercel.app/sitemap.xml
