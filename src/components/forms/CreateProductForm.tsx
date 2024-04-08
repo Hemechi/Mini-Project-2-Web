@@ -66,13 +66,22 @@ const CreateProductForm = () => {
         }),
       });
       console.log("post data: ", postData);
+      if (postData.ok) {
+        // Product creation was successful, show alert
+        alert("Product created successfully!");
+      } else {
+        // Product creation failed, show error message
+        alert("Failed to create product. Please try again later.");
+      }
     } catch (error) {
       console.log(error);
+      // Show error message if an error occurs during product creation
+      alert("An error occurred while creating the product. Please try again later.");
     }
   };
 
   return (
-    <div className="w-full pt-9">
+    <div className="w-full pt-1">
       <Formik
         onSubmit={(values: any, { setSubmitting, resetForm }) => {
           console.log(values);
@@ -85,8 +94,8 @@ const CreateProductForm = () => {
         validationSchema={validationSchema}
         initialValues={{
           category: {
-            name: "Bamboo",
-            icon: "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1693342954-rincon-3-64ee5ca62e001.jpg?crop=1xw:1xh;center,top&resize=980:*",
+            name: "",
+            icon: "",
           },
           name: "",
           desc: "",
@@ -100,9 +109,18 @@ const CreateProductForm = () => {
             <div className="flex flex-col gap-2">
               <label htmlFor="name">Product Name: </label>
               <Field
-                placeholder="T-shirt"
+                placeholder="Fancy T-shirt"
                 className={fieldStyle}
                 name="name"
+                type="text"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="category">Category: </label>
+              <Field
+                placeholder="T-shirt"
+                className={fieldStyle}
+                name="category.name"
                 type="text"
               />
             </div>

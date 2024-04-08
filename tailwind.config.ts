@@ -23,6 +23,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [nextui(), require('flowbite/plugin'),],
+  plugins: [nextui(), require('flowbite/plugin')],
 };
 export default config;

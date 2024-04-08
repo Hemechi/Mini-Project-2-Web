@@ -16,16 +16,16 @@ export const metadata: Metadata = {
     template: "%s - Hemechi",
     default: "Hemechi",
   },
-  description: "This is default shop",
+  description: "This is Hemechi shop",
   keywords: ["shop", "ecommerce", "sell", "card"],
   openGraph: {
     title: {
       template: "%s - Hemechi",
       default: "Hemechi",
     },
-    description: "This is default shop",
+    description: "This is Hemechi shop",
     images: [
-      "https://i.pinimg.com/236x/7b/38/43/7b3843fac19fdd6fec7e51769e240799.jpg",
+      "https://i.pinimg.com/564x/21/20/5c/21205cf422f350b0358a61b3f54e34c7.jpg",
     ],
   },
 };

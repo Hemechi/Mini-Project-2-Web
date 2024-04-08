@@ -37,7 +37,8 @@ async function page  ({params}: ParamProps) {
         <div className='bg-lighter-skin w-auto h-auto text-center rounded-lg px-3'>
         <h1 className='text-[24px] text-black font-bold mb-3'>{productDetail.name}</h1>
         </div>
-        <p>{productDetail.desc}</p>
+        <span className="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{productDetail.category}</span>
+        <p className='mt-2'>{productDetail.desc}</p>
         <div>
           <p className=' my-4 text-xl md:text-xl lg:text-2xl font-semibold text-skin dark:text-white'>${productDetail.price}</p>
         </div>

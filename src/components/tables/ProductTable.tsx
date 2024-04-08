@@ -51,6 +51,8 @@ const ProductTable = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [openModal, setOpenModal] = useState(false);
   const [productDetail, setProductDetail] = useState({} as ProductType);
+  const [productEdit, setProductEdit] = useState({} as ProductType);
+
 
   const handleDelete = async (productId:number) => {
     try {
@@ -73,6 +75,10 @@ const ProductTable = () => {
     onOpen();
     setProductDetail(value);
   }
+ function handleEdit(row: ProductType) { // Explicitly type the parameter
+    setOpenModal(true);
+    setProductEdit(row);
+  }
   const columnsData: TableColumn<ProductType>[] = [
     {
       name: "ID",
@@ -84,6 +90,11 @@ const ProductTable = () => {
     {
       name: "Name",
       selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Category",
+      selector: (row) => row.category,
       sortable: true,
     },
     {
@@ -114,7 +125,9 @@ const ProductTable = () => {
                 <DropdownItem key="detail" onClick={() => handleDetail(row)}>
                   View Detail
                 </DropdownItem>
-                <DropdownItem key="edit" onClick={() => setOpenModal(true)}>Edit</DropdownItem>
+                <DropdownItem key="edit" onClick={() => handleEdit(row)}>
+                  Edit
+                </DropdownItem>
                 <DropdownItem
                   key="delete"
                   className="text-danger"
@@ -167,12 +180,13 @@ const ProductTable = () => {
               <ModalBody>
                 <p>{productDetail.name}</p>
                 <p>${productDetail.price}</p>
+                <span className="bg-yellow-100 text-yellow-800 w-40 text-sm font-medium me-2 mb-3 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 text-center">{productDetail.category}</span>
                 <Image
                   src={productDetail.image || ""}
                   width={100}
                   height={100}
+                  alt="products" 
                   className="mb-3"
-                  alt="products"
                 />
               </ModalBody>
             </>
@@ -183,15 +197,9 @@ const ProductTable = () => {
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <ModalContent>
           <ModalBody>
-            <EditProductForm pro={{
-              id: undefined,
-              name: undefined,
-              image: undefined,
-              desc: undefined,
-              category: undefined,
-              quantity: undefined,
-              price: undefined
-            }} />
+          <EditProductForm
+              pro={productEdit} // Pass product details to the EditProductForm
+            />
           </ModalBody>
         </ModalContent>
       </Modal>

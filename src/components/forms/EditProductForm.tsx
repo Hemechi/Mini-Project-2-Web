@@ -100,9 +100,8 @@ const EditProductForm = ({ pro }: { pro: ProductType }) => {
         validationSchema={validationSchema}
         initialValues={{
           category: {
-            name: "Hemechi",
-            icon:
-              "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1693342954-rincon-3-64ee5ca62e001.jpg?crop=1xw:1xh;center,top&resize=980:*",
+            name: "",
+            icon:"",
           },
           name: pro.name || "",
           desc: pro.desc || "",
@@ -120,6 +119,16 @@ const EditProductForm = ({ pro }: { pro: ProductType }) => {
                 placeholder={pro.name}
                 className={fieldStyle}
                 name="name"
+                type="text"
+              />
+            </div>
+            {/* category */}
+            <div className="flex flex-col gap-2">
+              <label htmlFor="category">Category: </label>
+              <Field
+                placeholder={pro.category}
+                className={fieldStyle}
+                name="category.name"
                 type="text"
               />
             </div>
