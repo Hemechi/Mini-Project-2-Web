@@ -11,7 +11,7 @@
   "dependencies": {
     "@nextui-org/react": "^2.2.10",
     "axios": "^1.6.8",
-    "flowbite-react": "^0.7.3",
+    "flowbite-react": "^0.10.2",
     "formik": "^2.4.5",
     "framer-motion": "^11.0.14",
     "next": "14.1.3",
