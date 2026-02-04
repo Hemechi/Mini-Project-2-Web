@@ -1,4 +1,4 @@
-FROM node:lts as build 
+FROM node:24.13.0-bookworm as build 
 WORKDIR /app 
 COPY package*.json ./ 
 RUN npm install  --force
@@ -6,7 +6,7 @@ COPY . .
 RUN npm run build 
 
 # Production stage
-FROM node:lts
+FROM node:24.13.0-bookworm
 WORKDIR /app
 COPY --from=build /app ./
 # copy the .env.production file
